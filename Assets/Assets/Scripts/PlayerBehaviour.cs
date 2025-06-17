@@ -15,8 +15,9 @@ public class PlayerBehaviour : MonoBehaviour
     [SerializeField] float jumpForce;
 
     [SerializeField] private BoxCollider collider3d;
-    [SerializeField] private BoxCollider collider2d;
+    [SerializeField] private BoxCollider2D collider2d;
     [SerializeField] private Rigidbody rb;
+    [SerializeField] private Rigidbody2D rb2d;
     [SerializeField] private MeshRenderer meshRenderer;
     [SerializeField] private GameObject spriteObject;
     [SerializeField] private ColorStatesDatabase colorStatesDatabase;
@@ -36,6 +37,10 @@ public class PlayerBehaviour : MonoBehaviour
         if (!rb)
         {
             rb = GetComponent<Rigidbody>();
+        }
+        if (!rb2d)
+        {
+            rb2d = spriteObject.GetComponent<Rigidbody2D>();
         }
         if (!animator)
         {
@@ -88,9 +93,10 @@ public class PlayerBehaviour : MonoBehaviour
 
     void Enter2D()
     {
-        Physics.Raycast(transform.position, Vector3.forward, out RaycastHit hit, 2f);
-        var other = hit.collider;
-        if(!other || !other.gameObject.CompareTag("Color"))
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector3.forward, 2f);
+        Collider2D other = hit.collider;
+        Debug.Log("Raycast hit: " + other?.gameObject.name);
+        if (!other || !other.gameObject.CompareTag("Color"))
         {
             return;
         }
@@ -99,34 +105,39 @@ public class PlayerBehaviour : MonoBehaviour
         Debug.Log("other color: " + other.GetComponentInParent<ColorLayer>().color);
 
         rb.velocity = Vector3.zero;
+
         is2d = true;
         rb.useGravity = false;
         collider2d.isTrigger = false;
         collider2d.excludeLayers = 1 << LayerMask.NameToLayer(color.ToString());
 
-        StartCoroutine(Transition2D());
+        StartCoroutine(Transition2D(color));
     }
 
     void Enter3D()
     {
         rb.velocity = Vector3.zero;
-        is2d = false;
-        rb.useGravity = true;
-        collider2d.isTrigger = true;
-
         animator.Play("PlayerReverse");
 
         spriteObject.SetActive(false);
         meshRenderer.enabled = true;
+        is2d = false;
+        rb.useGravity = true;
+        collider2d.isTrigger = true;
+
+        rb.position = new Vector3(rb2d.position.x, rb2d.position.y, rb.position.z);
+        spriteObject.transform.localPosition = new Vector3(0f, 0f, spriteObject.transform.localPosition.z);
     }
 
-    IEnumerator Transition2D()
+    IEnumerator Transition2D(ColorType color)
     {
         animator.Play("Player");
 
         yield return new WaitForSeconds(0.25f);
 
         Instantiate(particles, transform.position, Quaternion.identity);
+
+        is2d = true;
 
         spriteObject.GetComponent<SpriteRenderer>().sprite = colorStatesDatabase.GetColorSprite(color);
         spriteObject.SetActive(true);
@@ -137,7 +148,7 @@ public class PlayerBehaviour : MonoBehaviour
     {
         if (is2d)
         {
-            rb.velocity = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0f).normalized * speed2d;
+            rb2d.velocity = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0f).normalized * speed2d;
         }
         else
         {

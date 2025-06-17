@@ -16,4 +16,6 @@ MonoBehaviour:
   - color: 0
     sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
   - color: 1
-    sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+    sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  - color: 3
+    sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
