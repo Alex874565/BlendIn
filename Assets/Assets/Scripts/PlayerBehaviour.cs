@@ -25,11 +25,14 @@ public class PlayerBehaviour : MonoBehaviour
 
     [SerializeField] private GameObject particles;
 
+    private int collected;
+
     private ColorType color;
 
     // Start is called before the first frame update
     void Start()
     {
+        collected = 0;
         if (!meshRenderer)
         {
             meshRenderer = GetComponent<MeshRenderer>();
@@ -155,5 +158,10 @@ public class PlayerBehaviour : MonoBehaviour
             rb.AddRelativeForce(new Vector3(Input.GetAxis("Horizontal"), 0f, 0f) * speed3d, ForceMode.Acceleration);
             rb.velocity = new Vector3(Mathf.Clamp(rb.velocity.x, -maxSpeed3d, maxSpeed3d), rb.velocity.y, 0);
         }
+    }
+
+    public void CollectItem(GameObject item)
+    {
+        collected++;
     }
 }

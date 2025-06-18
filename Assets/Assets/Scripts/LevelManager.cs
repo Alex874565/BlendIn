@@ -13,6 +13,11 @@ public class LevelManager : MonoBehaviour
     [SerializeField] GameObject spawnNext;
     [SerializeField] GameObject spawnPrevious;
 
+    [SerializeField] int maxColectibles;
+    [SerializeField] int cCollectibles;
+    [SerializeField] int bCollectibles;
+    [SerializeField] int aCollectibles;
+
     private void Start()
     {
         currentLevelPart = 0;
