@@ -25,14 +25,15 @@ public class PlayerBehaviour : MonoBehaviour
 
     [SerializeField] private GameObject particles;
 
-    private int collected;
+    private int stars;
+    public int Stars => stars;
 
     private ColorType color;
 
     // Start is called before the first frame update
     void Start()
     {
-        collected = 0;
+        stars = 0;
         if (!meshRenderer)
         {
             meshRenderer = GetComponent<MeshRenderer>();
@@ -162,6 +163,6 @@ public class PlayerBehaviour : MonoBehaviour
 
     public void CollectItem(GameObject item)
     {
-        collected++;
+        stars++;
     }
 }
