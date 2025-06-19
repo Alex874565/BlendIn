@@ -12,6 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca933348e0080fb49905bee1c559d845, type: 3}
   m_Name: LevelDataDatabase
   m_EditorClassIdentifier: 
-  totalStars: 18
-  maxStars: 0
-  levelData: []
+  totalStars: 0
+  maxStars: 27
+  levelData:
+  - level: 0
+    maxStars: 9
+    starsEarned: 0
+  - level: 1
+    maxStars: 9
+    starsEarned: 0
+  - level: 2
+    maxStars: 9
+    starsEarned: 0
