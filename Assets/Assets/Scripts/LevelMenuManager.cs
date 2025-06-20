@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,8 +10,8 @@ public class LevelMenuManager : MonoBehaviour
     [SerializeField] private GameObject settingsMenu;
 
     [SerializeField] private List<GameObject> levelButtons;
-    [SerializeField] private TMPro.TMP_Text stars;
-    [SerializeField] private TMPro.TMP_Text deaths;
+    [SerializeField] private TextMeshProUGUI stars;
+    // [SerializeField] private TMPro.TMP_Text deaths;
 
     [SerializeField] private LevelDataDatabase levelDataDatabase;
 
@@ -30,7 +31,7 @@ public class LevelMenuManager : MonoBehaviour
         levelSelectMenu.SetActive(true);
 
         UpdateLevelButtons();
-        //UpdateStats();
+        UpdateStats();
 
         Debug.Log(SaveGame.Instance.saveGameData.level);
 
@@ -82,7 +83,7 @@ public class LevelMenuManager : MonoBehaviour
         int maxStars = levelDataDatabase.MaxStars;
 
         stars.text = totalStars + "/" + maxStars;
-        deaths.text = SaveGame.Instance.saveGameData.deaths.ToString();
+        // deaths.text = SaveGame.Instance.saveGameData.deaths.ToString();
     }
 
     public void QuitMenu()
