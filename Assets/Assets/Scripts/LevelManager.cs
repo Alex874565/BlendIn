@@ -31,6 +31,8 @@ public class LevelManager : MonoBehaviour
     [SerializeField] UnityEngine.AudioSource sfxAudio;
 
     [SerializeField] GameObject settingsMenu;
+    [SerializeField] TMPro.TMP_Text finishStarsText;
+
 
     private void Start()
     {
@@ -84,14 +86,16 @@ public class LevelManager : MonoBehaviour
 
     public void FinishGame()
     {
-        SaveGame.Instance.saveGameData.level = level + 1; // Assuming level parts are sequentially numbered
+        SaveGame.Instance.saveGameData.level = level + 1;
         SaveGame.Instance.Save();
 
         levelDataDatabase.SetLevelData(level, currentStars);
         levelDataDatabase.CalculateStars();
 
+        finishStarsText.text = currentStars + "/" + maxStars;
         finishScreen.SetActive(true);
     }
+
 
     public void Menu()
     {
