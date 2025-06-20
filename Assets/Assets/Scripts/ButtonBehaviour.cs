@@ -41,15 +41,15 @@ public class ButtonBehaviour : MonoBehaviour
         offBackground.SetActive(false);
         onBackground.SetActive(true);
         timerValue = timerDuration;
-        timer.gameObject.SetActive(true);
-        timer.text = timerValue.ToString("F1");
+        //timer.gameObject.SetActive(true);
+        //timer.text = timerValue.ToString("F1");
         while (timerValue > 0f)
         {
             yield return new WaitForSeconds(1f);
             timerValue -= 1;
-            timer.text = timerValue.ToString("F1");
+            //timer.text = timerValue.ToString("F1");
         }
-        timer.gameObject.SetActive(false);
+        //timer.gameObject.SetActive(false);
         isPressed = false;
         offLayer.SetActive(true);
         onLayer.SetActive(false);
