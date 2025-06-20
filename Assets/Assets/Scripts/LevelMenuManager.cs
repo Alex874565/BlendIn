@@ -57,6 +57,7 @@ public class LevelMenuManager : MonoBehaviour
             {
                 levelButtons[i].GetComponentInChildren<Button>().interactable = true;
                 levelButtonBehaviour.starsInfo.SetActive(true); // Show stars info for completed levels
+                Debug.Log("Level " + i + " is completed. Setting stars info.");
                 levelButtonBehaviour.maxStars.text = levelDataDatabase.GetLevelData(i).maxStars.ToString(); // Set max stars for the level
                 levelButtonBehaviour.currentStars.text = levelDataDatabase.GetLevelData(i).starsEarned.ToString(); // Set current stars for the level
                 levelButtonBehaviour.levelName.text = levelButtonBehaviour.level;

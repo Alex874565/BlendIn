@@ -84,7 +84,7 @@ public class LevelManager : MonoBehaviour
 
     public void FinishGame()
     {
-        SaveGame.Instance.saveGameData.level = currentLevelPart + 1; // Assuming level parts are sequentially numbered
+        SaveGame.Instance.saveGameData.level = level + 1; // Assuming level parts are sequentially numbered
         SaveGame.Instance.Save();
 
         levelDataDatabase.SetLevelData(level, currentStars);
