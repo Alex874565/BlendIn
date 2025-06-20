@@ -86,7 +86,7 @@ public class LevelManager : MonoBehaviour
 
     public void FinishGame()
     {
-        SaveGame.Instance.saveGameData.level = level + 1;
+        SaveGame.Instance.saveGameData.level = Mathf.Max(SaveGame.Instance.saveGameData.level, level + 1); // Update the highest level reached
         SaveGame.Instance.Save();
 
         levelDataDatabase.SetLevelData(level, currentStars);
