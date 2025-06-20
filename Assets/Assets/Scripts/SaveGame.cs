@@ -16,6 +16,7 @@ public class SaveGame : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
+            Load(); // Load the save data when the game starts
         }
         else
         {
@@ -41,15 +42,17 @@ public class SaveGame : MonoBehaviour
         if (File.Exists(directoryName + "/" + saveName + ".bin"))
         {
             BinaryFormatter formatter = new BinaryFormatter();
-            FileStream file = File.Open(directoryName + saveName + ".bin", FileMode.Open);
+            FileStream file = File.Open(directoryName + "/" + saveName + ".bin", FileMode.Open);
             if (file.Length == 0)
             {
+                Debug.LogWarning("Save file is empty, creating new save data.");
                 file.Close();
             }
             else
             {
                 saveGameData = (SaveGameData)formatter.Deserialize(file);
                 file.Close();
+                Debug.Log("Game data loaded successfully.");
                 return;
             }
         }
