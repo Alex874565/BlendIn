@@ -1,8 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
-using UnityEditor.Animations;
-using UnityEditor.UIElements;
 using UnityEngine;
 
 public class PlayerBehaviour : MonoBehaviour
@@ -153,8 +149,7 @@ public class PlayerBehaviour : MonoBehaviour
             return;
         }
 
-        color = other.GetComponentInParent<ColorLayer>().color;
-        Debug.Log("other color: " + other.GetComponentInParent<ColorLayer>().color);
+        color = other.GetComponent<ColorLayer>().color;
 
         rb.velocity = Vector3.zero;
 
@@ -223,7 +218,7 @@ public class PlayerBehaviour : MonoBehaviour
 
     public void LeaveButtonLayer(ColorType color)
     {
-        if (is2d && this.color == color)
+        if (is2d)
         {
             Enter3D();
         }
