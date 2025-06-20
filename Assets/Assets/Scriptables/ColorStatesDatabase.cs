@@ -1,7 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.UIElements;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "ColorStatesDatabase", menuName = "ScriptableObjects/ColorStatesDatabase", order = 1)]
