@@ -14,14 +14,25 @@ public class LevelMenuManager : MonoBehaviour
 
     [SerializeField] private LevelDataDatabase levelDataDatabase;
 
+    private void Start()
+    {
+        if (levelDataDatabase == null)
+        {
+            Debug.LogError("LevelDataDatabase is not assigned in the inspector.");
+            return;
+        }
+        LoadLevelMenu();
+    }
 
     public void LoadLevelMenu()
     {
         levelSelectMenu.SetActive(true);
-        settingsMenu.SetActive(false);
+        //settingsMenu.SetActive(false);
 
         UpdateLevelButtons();
-        UpdateStats();
+        //UpdateStats();
+
+        Debug.Log(SaveGame.Instance.saveGameData.level);
 
     }
 
@@ -35,18 +46,26 @@ public class LevelMenuManager : MonoBehaviour
     {
         for (int i = 0; i < levelButtons.Count; i++)
         {
+            var levelButtonBehaviour = levelButtons[i].GetComponent<LevelButtonBehaviour>();
             if (i < SaveGame.Instance.saveGameData.level)
             {
-                levelButtons[i].GetComponent<Button>().interactable = true;
-                levelButtons[i].GetComponent<TMPro.TMP_Text>().text = levelDataDatabase.GetLevelData(i).starsEarned.ToString() + "/" + levelDataDatabase.GetLevelData(i).maxStars.ToString();
+                levelButtons[i].GetComponentInChildren<Button>().interactable = true;
+                levelButtonBehaviour.starsInfo.SetActive(true); // Show stars info for completed levels
+                levelButtonBehaviour.maxStars.text = levelDataDatabase.GetLevelData(i).maxStars.ToString(); // Set max stars for the level
+                levelButtonBehaviour.currentStars.text = levelDataDatabase.GetLevelData(i).starsEarned.ToString(); // Set current stars for the level
+                levelButtonBehaviour.levelName.text = levelButtonBehaviour.level;
             }
             else if (i == SaveGame.Instance.saveGameData.level)
             {
-                levelButtons[i].GetComponent<Button>().interactable = true; // Current level is not interactable
+                levelButtons[i].GetComponentInChildren<Button>().interactable = true; // Current level is not interactable
+                levelButtonBehaviour.starsInfo.SetActive(false); // Show stars info for the current level
+                levelButtonBehaviour.levelName.text = levelButtonBehaviour.level; // Set level name for the current level
             }
             else
             {
-                levelButtons[i].GetComponent<Button>().interactable = false;
+                levelButtons[i].GetComponentInChildren<Button>().interactable = false; // Future levels are not interactable
+                levelButtonBehaviour.starsInfo.SetActive(false); // Hide stars info for future levels
+                levelButtonBehaviour.levelName.text = "Locked"; // Set level name for future levels
             }
         }
     }

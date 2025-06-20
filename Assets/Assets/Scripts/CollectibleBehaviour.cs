@@ -4,18 +4,7 @@ using UnityEngine;
 
 public class CollectibleBehaviour : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
+    [SerializeField] private GameObject particles;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -24,6 +13,11 @@ public class CollectibleBehaviour : MonoBehaviour
         {
             // Assuming the player has a method to collect items
             other.gameObject.GetComponent<PlayerBehaviour>().CollectItem(gameObject);
+            // Instantiate particles at the collectible's position
+            if (particles != null)
+            {
+                Instantiate(particles, transform.position, Quaternion.identity);
+            }
             Destroy(gameObject); // Destroy the collectible after collection
         }
     }

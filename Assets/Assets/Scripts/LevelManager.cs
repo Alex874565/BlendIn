@@ -5,7 +5,7 @@ using UnityEngine;
 public class LevelManager : MonoBehaviour
 {
 
-    [SerializeField] int currentLevelPart;
+    private int currentLevelPart;
 
     [SerializeField] List<GameObject> levelParts;
 
@@ -13,17 +13,19 @@ public class LevelManager : MonoBehaviour
     [SerializeField] GameObject spawnNext;
     [SerializeField] GameObject spawnPrevious;
 
-    [SerializeField] int maxStars;
+    private int maxStars;
 
-    [SerializeField] int currentStars;
+    private int currentStars;
 
     [SerializeField] int level;
 
     [SerializeField] LevelDataDatabase levelDataDatabase;
 
+    [SerializeField] GameObject finishScreen;
+
     private void Start()
     {
-        maxStars = levelDataDatabase.GetLevelData(currentLevelPart).maxStars;
+        maxStars = levelDataDatabase.GetLevelData(level).maxStars;
 
         currentLevelPart = 0;
         levelParts[0].SetActive(true);
@@ -37,6 +39,11 @@ public class LevelManager : MonoBehaviour
             currentLevelPart++;
             levelParts[currentLevelPart].SetActive(true);
             player.GetComponent<Rigidbody>().position =  new Vector3(spawnNext.transform.position.x, player.transform.position.y, spawnNext.transform.position.z);
+        }
+        else
+        {
+            // If the last part is reached, finish the game
+            FinishGame();
         }
     }
 
@@ -58,6 +65,13 @@ public class LevelManager : MonoBehaviour
 
         levelDataDatabase.SetLevelData(level, currentStars);
         levelDataDatabase.CalculateStars();
+
+        finishScreen.SetActive(true);
+    }
+
+    public void Exit()
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Level Menu");
     }
 
 }

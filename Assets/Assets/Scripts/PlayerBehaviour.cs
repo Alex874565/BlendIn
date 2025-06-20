@@ -23,7 +23,12 @@ public class PlayerBehaviour : MonoBehaviour
     [SerializeField] private ColorStatesDatabase colorStatesDatabase;
     [SerializeField] private Animator animator;
 
-    [SerializeField] private GameObject particles;
+    [SerializeField] private GameObject transformParticles;
+    [SerializeField] private GameObject moving3DParticles;
+    [SerializeField] private GameObject jumpParticles;
+
+    private bool moving3D;
+    private bool jumping;
 
     private int stars;
     public int Stars => stars;
@@ -70,10 +75,21 @@ public class PlayerBehaviour : MonoBehaviour
 
         if(!is2d && Input.GetKeyDown(KeyCode.W))
         {
-            if(rb.velocity.y == 0f)
+            if(Mathf.Abs(rb.velocity.y) <= 0.1f)
             {
                 rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+                moving3DParticles.GetComponent<ParticleSystem>().Stop();
+                //Instantiate(jumpParticles, transform.position - new Vector3(0, 0.5f, 0), Quaternion.Euler(0, 75, 0));
             }
+        }
+        if (Mathf.Abs(rb.velocity.y) > 0)
+        {
+            jumping = true;
+        }
+        if (jumping && Mathf.Abs(rb.velocity.y) <= 0.05f)
+        {
+            //Instantiate(jumpParticles, transform.position - new Vector3(0, 0.5f, 0), Quaternion.Euler(0, 75, 0));
+            jumping = false;
         }
     }
 
@@ -139,7 +155,7 @@ public class PlayerBehaviour : MonoBehaviour
 
         yield return new WaitForSeconds(0.25f);
 
-        Instantiate(particles, transform.position, Quaternion.identity);
+        Instantiate(transformParticles, transform.position, Quaternion.identity);
 
         is2d = true;
 
@@ -158,11 +174,23 @@ public class PlayerBehaviour : MonoBehaviour
         {
             rb.AddRelativeForce(new Vector3(Input.GetAxis("Horizontal"), 0f, 0f) * speed3d, ForceMode.Acceleration);
             rb.velocity = new Vector3(Mathf.Clamp(rb.velocity.x, -maxSpeed3d, maxSpeed3d), rb.velocity.y, 0);
+            if(!moving3D && Mathf.Abs(rb.velocity.x) > 1f && !jumping)
+            {
+                Instantiate(moving3DParticles, transform.position - new Vector3(0, 0.5f, 0), Quaternion.identity);
+            }
         }
     }
 
     public void CollectItem(GameObject item)
     {
         stars++;
+    }
+
+    public void LeaveButtonLayer(ColorType color)
+    {
+        if (is2d && this.color == color)
+        {
+            Enter3D();
+        }
     }
 }

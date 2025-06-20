@@ -22,6 +22,7 @@ public class LevelDataDatabase : ScriptableObject
         [SerializeField] public int level;
         [SerializeField] public int maxStars;
         [SerializeField] public int starsEarned;
+        [SerializeField] public int deaths;
     }
 
     public LevelData GetLevelData(int level)
