@@ -30,6 +30,8 @@ public class LevelManager : MonoBehaviour
 
     [SerializeField] GameObject deathScreen;
 
+    [SerializeField] UnityEngine.AudioSource sfxAudio;
+
     private void Start()
     {
         Time.timeScale = 1; // Ensure the game starts unpaused
@@ -98,6 +100,7 @@ public class LevelManager : MonoBehaviour
 
     public void AddStar()
     {
+        sfxAudio.Play();
         currentStars += 1;
         if (currentStars > maxStars)
         {
