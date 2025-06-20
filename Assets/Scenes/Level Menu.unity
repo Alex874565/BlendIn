@@ -2748,8 +2748,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30e52e30287588c4f92d8ce862412de6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxStars: {fileID: 0}
-  currentStars: {fileID: 0}
+  maxStars: {fileID: 199659981}
+  currentStars: {fileID: 293331087}
   levelName: {fileID: 72347031}
   level: Blue
   starsInfo: {fileID: 0}
