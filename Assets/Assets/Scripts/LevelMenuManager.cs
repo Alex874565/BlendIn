@@ -53,7 +53,6 @@ public class LevelMenuManager : MonoBehaviour
         for (int i = 0; i < levelButtons.Count; i++)
         {
             var levelButtonBehaviour = levelButtons[i].GetComponent<LevelButtonBehaviour>();
-            Debug.Log(SaveGame.Instance.saveGameData.level);
             if (i < SaveGame.Instance.saveGameData.level)
             {
                 levelButtons[i].GetComponentInChildren<Button>().interactable = true;

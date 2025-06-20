@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LevelManager : MonoBehaviour
 {
@@ -32,6 +33,9 @@ public class LevelManager : MonoBehaviour
 
     [SerializeField] GameObject settingsMenu;
     [SerializeField] TMPro.TMP_Text finishStarsText;
+
+    [SerializeField] Slider music;
+    [SerializeField] Slider sfx;
 
 
     private void Start()

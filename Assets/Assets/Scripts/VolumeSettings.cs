@@ -8,6 +8,11 @@ public class VolumeSettings : MonoBehaviour
     [SerializeField] private Slider sfxSlider;
     [SerializeField] private AudioMixer audioMixer;
 
+    public void Start()
+    {
+        InitializeVolume(); // Initialize volume settings when the script starts
+    }
+
     public void InitializeVolume()
     {
         if (PlayerPrefs.HasKey("MusicVolume") && PlayerPrefs.HasKey("SFXVolume"))
