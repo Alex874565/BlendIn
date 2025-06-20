@@ -37,6 +37,8 @@ public class LevelManager : MonoBehaviour
     [SerializeField] Slider music;
     [SerializeField] Slider sfx;
 
+    [SerializeField] TMPro.TMP_Text deathStarsText;
+
 
     private void Start()
     {
@@ -134,6 +136,7 @@ public class LevelManager : MonoBehaviour
         //SaveGame.Instance.Save();
         deathScreen.SetActive(true);
         Time.timeScale = 0; // Pause the game
+        deathStarsText.text = currentStars + "/" + maxStars;
     }
 
     public void OpenSettings()
