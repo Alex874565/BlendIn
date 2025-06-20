@@ -29,6 +29,12 @@ public class PlayerBehaviour : MonoBehaviour
 
     [SerializeField] private LevelManager levelManager;
 
+    [SerializeField] private GameObject eye1;
+    [SerializeField] private GameObject eye2;
+
+    [SerializeField] private Vector3 eye1Default;
+    [SerializeField] private Vector3 eye2Default;
+
     private bool moving3D;
     private bool jumping;
 
@@ -65,6 +71,9 @@ public class PlayerBehaviour : MonoBehaviour
         {
             Enter3D();
         }
+
+        eye1Default = eye1.transform.localPosition;
+        eye2Default = eye2.transform.localPosition;
     }
 
     // Update is called once per frame
@@ -75,9 +84,9 @@ public class PlayerBehaviour : MonoBehaviour
             SwapStates();
         }
 
-        if(!is2d && Input.GetKeyDown(KeyCode.W))
+        if (!is2d && Input.GetKeyDown(KeyCode.W))
         {
-            if(Mathf.Abs(rb.velocity.y) <= 0.1f)
+            if (Mathf.Abs(rb.velocity.y) <= 0.1f)
             {
                 rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
                 moving3DParticles.GetComponent<ParticleSystem>().Stop();
@@ -92,6 +101,27 @@ public class PlayerBehaviour : MonoBehaviour
         {
             //Instantiate(jumpParticles, transform.position - new Vector3(0, 0.5f, 0), Quaternion.Euler(0, 75, 0));
             jumping = false;
+        }
+        if (!is2d)
+        {
+            Vector2 velocityOffset = rb.velocity * 0.05f; // adjust sensitivity
+
+            Vector3 targetOffset = new Vector3(velocityOffset.x, velocityOffset.y, 0);
+            targetOffset = Vector3.ClampMagnitude(targetOffset, 0.02f); // max eye offset
+
+            eye1.transform.localPosition = Vector3.Lerp(eye1.transform.localPosition, eye1Default + targetOffset, Time.deltaTime * 5f);
+            eye2.transform.localPosition = Vector3.Lerp(eye2.transform.localPosition, eye2Default + targetOffset, Time.deltaTime * 5f);
+        }
+        else
+        {
+            Vector2 velocityOffset = rb2d.velocity * 0.05f; // adjust sensitivity
+
+            Vector3 targetOffset = new Vector3(velocityOffset.x, velocityOffset.y, 0);
+            targetOffset = Vector3.ClampMagnitude(targetOffset, 0.02f); // max eye offset
+
+            eye1.transform.localPosition = Vector3.Lerp(eye1.transform.localPosition, eye1Default + targetOffset, Time.deltaTime * 5f);
+            eye2.transform.localPosition = Vector3.Lerp(eye2.transform.localPosition, eye2Default + targetOffset, Time.deltaTime * 5f);
+
         }
     }
 
@@ -138,12 +168,15 @@ public class PlayerBehaviour : MonoBehaviour
 
     void Enter3D()
     {
+
+        is2d = false;
+        rb2d.velocity = Vector2.zero;
         rb.velocity = Vector3.zero;
+
         animator.Play("PlayerReverse");
 
-        spriteObject.SetActive(false);
+        spriteObject.GetComponent<BoxCollider2D>().enabled = false;
         meshRenderer.enabled = true;
-        is2d = false;
         rb.useGravity = true;
         collider2d.isTrigger = true;
 
@@ -161,8 +194,7 @@ public class PlayerBehaviour : MonoBehaviour
 
         is2d = true;
 
-        spriteObject.GetComponent<SpriteRenderer>().sprite = colorStatesDatabase.GetColorSprite(color);
-        spriteObject.SetActive(true);
+        spriteObject.GetComponent<BoxCollider2D>().enabled = true;
         meshRenderer.enabled = false;
     }
 

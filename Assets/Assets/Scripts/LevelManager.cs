@@ -32,6 +32,7 @@ public class LevelManager : MonoBehaviour
 
     private void Start()
     {
+        Time.timeScale = 1; // Ensure the game starts unpaused
         maxStars = levelDataDatabase.GetLevelData(level).maxStars;
         currentStars = 0;
         starsText.text = currentStars + "/" + maxStars;
