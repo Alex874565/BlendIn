@@ -68,7 +68,6 @@ public class LevelManager : MonoBehaviour
         }
         else
         {
-            // If the last part is reached, finish the game
             FinishGame();
         }
     }
