@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
@@ -59,5 +60,6 @@ public class SaveGame : MonoBehaviour
         saveGameData = new SaveGameData();
         saveGameData.deaths = 0;
         saveGameData.level = 0;
+        saveGameData.starsPerLevel = new List<int>();
     }
 }

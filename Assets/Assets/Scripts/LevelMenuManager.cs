@@ -59,7 +59,7 @@ public class LevelMenuManager : MonoBehaviour
                 levelButtonBehaviour.starsInfo.SetActive(true); // Show stars info for completed levels
                 Debug.Log("Level " + i + " is completed. Setting stars info.");
                 levelButtonBehaviour.maxStars.text = levelDataDatabase.GetLevelData(i).maxStars.ToString(); // Set max stars for the level
-                levelButtonBehaviour.currentStars.text = levelDataDatabase.GetLevelData(i).starsEarned.ToString(); // Set current stars for the level
+                levelButtonBehaviour.currentStars.text = SaveGame.Instance.saveGameData.starsPerLevel[i].ToString(); // Set stars earned for the level
                 levelButtonBehaviour.levelName.text = levelButtonBehaviour.level;
             }
             else if (i == SaveGame.Instance.saveGameData.level)
@@ -79,7 +79,11 @@ public class LevelMenuManager : MonoBehaviour
 
     public void UpdateStats()
     {
-        int totalStars = levelDataDatabase.TotalStars;
+        int totalStars = 0;
+        foreach (var starsPerLevel in SaveGame.Instance.saveGameData.starsPerLevel)
+        {
+            totalStars += starsPerLevel;
+        }
         int maxStars = levelDataDatabase.MaxStars;
 
         stars.text = totalStars + "/" + maxStars;
