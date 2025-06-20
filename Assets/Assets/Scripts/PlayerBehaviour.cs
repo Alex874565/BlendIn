@@ -152,6 +152,7 @@ public class PlayerBehaviour : MonoBehaviour
         color = other.GetComponent<ColorLayer>().color;
 
         rb.velocity = Vector3.zero;
+        collider3d.enabled = false;
 
         is2d = true;
         rb.useGravity = false;
@@ -167,6 +168,7 @@ public class PlayerBehaviour : MonoBehaviour
         is2d = false;
         rb2d.velocity = Vector2.zero;
         rb.velocity = Vector3.zero;
+        collider3d.enabled = true;
 
         animator.Play("PlayerReverse");
 

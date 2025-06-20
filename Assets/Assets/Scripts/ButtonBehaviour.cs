@@ -14,7 +14,7 @@ public class ButtonBehaviour : MonoBehaviour
     [SerializeField] private ColorType color;
 
     private bool isPressed = false;
-    private float timerValue = 0f;
+    private static float timerValue = 0f;
     private float timerDuration = 5f; // Duration for the timer to count down
 
     public void Start()
@@ -40,14 +40,26 @@ public class ButtonBehaviour : MonoBehaviour
         onLayer.SetActive(true);
         offBackground.SetActive(false);
         onBackground.SetActive(true);
-        timerValue = timerDuration;
         //timer.gameObject.SetActive(true);
         //timer.text = timerValue.ToString("F1");
-        while (timerValue > 0f)
+        if (timerValue > 0f)
         {
-            yield return new WaitForSeconds(1f);
-            timerValue -= 1;
-            //timer.text = timerValue.ToString("F1");
+            timerValue = timerDuration;
+            while (timerValue > 0f)
+            {
+                yield return new WaitForSeconds(1f);
+                //timer.text = timerValue.ToString("F1");
+            }
+        }
+        else
+        {
+            timerValue = timerDuration;
+            while (timerValue > 0f)
+            {
+                yield return new WaitForSeconds(1f);
+                timerValue -= 1;
+                //timer.text = timerValue.ToString("F1");
+            }
         }
         //timer.gameObject.SetActive(false);
         isPressed = false;
