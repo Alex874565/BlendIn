@@ -22,12 +22,12 @@ public class LevelMenuManager : MonoBehaviour
             return;
         }
         LoadLevelMenu();
+        CloseSettingsMenu();
     }
 
     public void LoadLevelMenu()
     {
         levelSelectMenu.SetActive(true);
-        //settingsMenu.SetActive(false);
 
         UpdateLevelButtons();
         //UpdateStats();
@@ -40,6 +40,12 @@ public class LevelMenuManager : MonoBehaviour
     {
         levelSelectMenu.SetActive(false);
         settingsMenu.SetActive(true);
+    }
+
+    public void CloseSettingsMenu()
+    {
+        settingsMenu.SetActive(false);
+        levelSelectMenu.SetActive(true);
     }
 
     public void UpdateLevelButtons()
