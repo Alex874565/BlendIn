@@ -27,6 +27,8 @@ public class PlayerBehaviour : MonoBehaviour
     [SerializeField] private GameObject moving3DParticles;
     [SerializeField] private GameObject jumpParticles;
 
+    [SerializeField] private LevelManager levelManager;
+
     private bool moving3D;
     private bool jumping;
 
@@ -184,6 +186,7 @@ public class PlayerBehaviour : MonoBehaviour
     public void CollectItem(GameObject item)
     {
         stars++;
+        levelManager.AddStar();
     }
 
     public void LeaveButtonLayer(ColorType color)
@@ -192,5 +195,15 @@ public class PlayerBehaviour : MonoBehaviour
         {
             Enter3D();
         }
+    }
+
+    public void Die()
+    {
+        Debug.Log("Player died");
+        rb.velocity = Vector3.zero;
+        rb2d.velocity = Vector2.zero;
+        rb.position = new Vector3(0, 0, 0);
+        rb2d.position = new Vector2(0, 0);
+        levelManager.Death();
     }
 }

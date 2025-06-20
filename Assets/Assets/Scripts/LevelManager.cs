@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class LevelManager : MonoBehaviour
@@ -23,12 +24,32 @@ public class LevelManager : MonoBehaviour
 
     [SerializeField] GameObject finishScreen;
 
+    [SerializeField] TMPro.TMP_Text starsText;
+
+    [SerializeField] GameObject pauseMenu;
+
+    [SerializeField] GameObject deathScreen;
+
     private void Start()
     {
         maxStars = levelDataDatabase.GetLevelData(level).maxStars;
+        currentStars = 0;
+        starsText.text = currentStars + "/" + maxStars;
 
         currentLevelPart = 0;
         levelParts[0].SetActive(true);
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.P))
+        {
+            TogglePause();
+        }
+        else if (Input.GetKeyDown(KeyCode.P))
+        {
+            TogglePause();
+        }
     }
 
     public void LoadNextPart()
@@ -69,9 +90,39 @@ public class LevelManager : MonoBehaviour
         finishScreen.SetActive(true);
     }
 
-    public void Exit()
+    public void Menu()
     {
         UnityEngine.SceneManagement.SceneManager.LoadScene("Level Menu");
+    }
+
+    public void AddStar()
+    {
+        currentStars += 1;
+        if (currentStars > maxStars)
+        {
+            currentStars = maxStars; // Ensure we don't exceed max stars
+        }
+        starsText.text = currentStars + "/" + maxStars;
+    }
+
+    public void TogglePause()
+    {
+        Time.timeScale = Time.timeScale == 0 ? 1 : 0; // Toggle pause
+        pauseMenu.SetActive(Time.timeScale == 0); // Show pause menu if paused
+    }
+
+    public void Retry()
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
+        Time.timeScale = 1; // Resume the game
+    }
+
+    public void Death()
+    {
+        //SaveGame.Instance.saveGameData.deaths++;
+        //SaveGame.Instance.Save();
+        deathScreen.SetActive(true);
+        Time.timeScale = 0; // Pause the game
     }
 
 }
