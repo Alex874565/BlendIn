@@ -13,9 +13,7 @@ public class SpikeBehaviour : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            // Handle player collision with spike
-            Debug.Log("Player hit by spike!");
-            // You can add more logic here, like reducing health or triggering an animation
+            other.GetComponent<PlayerBehaviour>().Die();
         }
     }
 }
